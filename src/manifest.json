@@ -15,8 +15,8 @@
     {
       "js": ["static/js/manifest.js", "static/js/vendor.js", "static/js/content.js"],
       "matches": [
-        "http://ourbits.club/rescue.php*",
-        "https://ourbits.club/rescue.php*"
+        "http://ourbits.club/*",
+        "https://ourbits.club/*"
       ],
       "run_at": "document_end"
     }

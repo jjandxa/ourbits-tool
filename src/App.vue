@@ -2,11 +2,9 @@
   <div id="app">
     <el-menu theme="dark" :router="true" class="el-menu-demo" mode="horizontal">
       <el-menu-item index="/">首页</el-menu-item>
-      <el-submenu index="2">
-        <template slot="title">分流</template>
-        <el-menu-item index="/shunt/torrentid">获取种子id</el-menu-item>
-        <el-menu-item index="/shunt/torrentlist">种子列表</el-menu-item>
-      </el-submenu>
+      <el-menu-item index="/shunt/torrent/list">分流</el-menu-item>
+      <el-menu-item index="/save/torrent/list">保种</el-menu-item>
+      <el-menu-item index="/release/torrent/list">发布</el-menu-item>
       <el-submenu index="3">
         <template slot="title">更多</template>
         <el-menu-item index="/about">关于</el-menu-item>

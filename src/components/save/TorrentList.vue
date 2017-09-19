@@ -16,17 +16,6 @@
           off-color="#ff4949">
         </el-switch>
       </el-form-item>
-      <el-form-item label="进度">
-        <el-switch
-          v-model="query.finish"
-          on-text="已完成"
-          off-text="未完成"
-          on-color="#13ce66"
-          :width="78"
-          @change="changeEvent"
-          off-color="#ff4949">
-        </el-switch>
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" id="copy" :data-clipboard-text="copyValue">复制到粘贴板</el-button>
       </el-form-item>
@@ -57,10 +46,6 @@
             prop="seed"
             label="做种数">
           </el-table-column>
-          <el-table-column
-            prop="progress"
-            label="进度">
-          </el-table-column>
         </el-table>
         <el-row style="text-align: center;">
           <el-pagination
@@ -90,9 +75,6 @@ export default {
       showExclude: false,
       exclude: null,
       finishSeed: [],
-      query: {
-        finish: false
-      },
       copyValue: ''
     }
   },
@@ -101,7 +83,7 @@ export default {
     var self = this
     // 发送获取分流种子列表请求
 
-    chrome.tabs.sendRequest(bg.tabId, { type: 'shunt' }, response => { // eslint-disable-line
+    chrome.tabs.sendRequest(bg.tabId, { type: 'save' }, response => { // eslint-disable-line
       if (response.code === 0) {
         self.data = response.data
         self.loadTable()
@@ -131,9 +113,6 @@ export default {
     },
     filterData () {
       var arr = this.data
-      if (this.query.finish) {
-        arr = arr.filter(item => item.progress === '100%' && item.status === 'doing')
-      }
 
       if (this.showExclude) {
         let oldSeed = this.exclude.split('\n')
@@ -157,7 +136,6 @@ export default {
         }
       }
       this.copyValue = temp
-      console.log(arr)
       return arr.slice(begin, begin + this.pageSize)
     }
   }
