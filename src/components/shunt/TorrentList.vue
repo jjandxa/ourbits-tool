@@ -22,7 +22,6 @@
           on-text="是"
           off-text="否"
           on-color="#13ce66"
-          :width="78"
           @change="changeEvent"
           off-color="#ff4949">
         </el-switch>
