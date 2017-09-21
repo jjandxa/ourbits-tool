@@ -28,6 +28,17 @@ export default {
     }
     return temp
   },
+  getCopyWithTorrentValue (data) {
+    let temp = ''
+    for (let i = 0; i < data.length; i++) {
+      if (i === data.length - 1) {
+        temp = temp + `${data[i].id} ${data[i].title} ${data[i].type[0]} ${data[i].type[1]} ${data[i].size} ${data[i].seed}`
+      } else {
+        temp = temp + `${data[i].id} ${data[i].title} ${data[i].type[0]} ${data[i].type[1]} ${data[i].size} ${data[i].seed}\n`
+      }
+    }
+    return temp
+  },
   // 排除非官方的种子
   excludeNotOfficial (data, isExclude) {
     if (isExclude) {

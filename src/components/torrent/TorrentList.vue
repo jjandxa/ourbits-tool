@@ -220,7 +220,7 @@ export default {
       var begin = (this.currentPage - 1) * this.pageSize
       this.total = arr.length
       // 获取复制的内容
-      this.copyValue = Utils.getCopyValue(arr)
+      this.copyValue = Utils.getCopyWithTorrentValue(arr)
       // 分页
       return arr.slice(begin, begin + this.pageSize)
     }
