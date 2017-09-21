@@ -33,9 +33,9 @@ export default {
     for (let i = 0; i < data.length; i++) {
       let title = data[i].title.replace(/ /g, '.')
       if (i === data.length - 1) {
-        temp = temp + `${data[i].id} ${title} ${data[i].type[0]} ${data[i].type[1]} ${data[i].size} ${data[i].seed}`
+        temp = temp + `${data[i].id} ${title} ${data[i].type[0]} ${data[i].type[1]} ${data[i].size} ${data[i].seed} ${data[i].progress}`
       } else {
-        temp = temp + `${data[i].id} ${title} ${data[i].type[0]} ${data[i].type[1]} ${data[i].size} ${data[i].seed}\n`
+        temp = temp + `${data[i].id} ${title} ${data[i].type[0]} ${data[i].type[1]} ${data[i].size} ${data[i].seed} ${data[i].progress}\n`
       }
     }
     return temp
