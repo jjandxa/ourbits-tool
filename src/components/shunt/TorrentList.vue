@@ -1,12 +1,12 @@
 <template lang="html">
-  <div>
+  <div class="torrent">
     <el-row>
       <template v-for="seed in finishSeed">
         {{ seed.id + ' ' + seed.size }} <br>
       </template>
     </el-row>
     <el-form :inline="true">
-      <el-form-item label="是否排除已报告的种子">
+      <el-form-item label="排除种子">
         <el-switch
           on-text="是"
           off-text="否"
@@ -16,11 +16,11 @@
           off-color="#ff4949">
         </el-switch>
       </el-form-item>
-      <el-form-item label="进度">
+      <el-form-item label="已完成">
         <el-switch
           v-model="query.finish"
-          on-text="已完成"
-          off-text="未完成"
+          on-text="是"
+          off-text="否"
           on-color="#13ce66"
           :width="78"
           @change="changeEvent"
@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import Utils from '../utils/Utils'
 var Clipboard = require('clipboard')
 export default {
   data () {
@@ -131,33 +132,19 @@ export default {
     },
     filterData () {
       var arr = this.data
+      // 过滤掉未完成的
       if (this.query.finish) {
         arr = arr.filter(item => item.progress === '100%' && item.status === 'doing')
       }
 
-      if (this.showExclude) {
-        let oldSeed = this.exclude.split('\n')
-        arr = arr.filter(item => {
-          for (let i = 0; i < oldSeed.length; i++) {
-            if (item.id === oldSeed[i]) {
-              return false
-            }
-          }
-          return true
-        })
-      }
+      // 排除种子ID
+      arr = Utils.excludeTorrentId(arr, this.exclude, this.showExclude)
+
       var begin = (this.currentPage - 1) * this.pageSize
       this.total = arr.length
-      let temp = ''
-      for (let i = 0; i < arr.length; i++) {
-        if (i === arr.length - 1) {
-          temp = temp + `${arr[i].id} ${arr[i].size}`
-        } else {
-          temp = temp + `${arr[i].id} ${arr[i].size}\n`
-        }
-      }
-      this.copyValue = temp
-      console.log(arr)
+      // 获取复制的内容
+      this.copyValue = Utils.getCopyValue(arr)
+      // 分页
       return arr.slice(begin, begin + this.pageSize)
     }
   }
@@ -169,6 +156,6 @@ export default {
   margin-top: 5px;
 }
 .torrent {
-  height: 300px;
+  min-height: 500px;
 }
 </style>

@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import TorrentList from '@/components/shunt/TorrentList'
+import ShuntTorrentList from '@/components/shunt/TorrentList'
 import ReleaseTorrentList from '@/components/release/TorrentList'
 import SaveTorrentList from '@/components/save/TorrentList'
+import TorrentList from '@/components/torrent/TorrentList'
 import About from '@/components/About'
 
 Vue.use(Router)
@@ -17,8 +18,8 @@ export default new Router({
     },
     {
       path: '/shunt/torrent/list',
-      name: 'TorrentList',
-      component: TorrentList
+      name: 'ShuntTorrentList',
+      component: ShuntTorrentList
     },
     {
       path: '/release/torrent/list',
@@ -29,6 +30,11 @@ export default new Router({
       path: '/save/torrent/list',
       name: 'SaveTorrentList',
       component: SaveTorrentList
+    },
+    {
+      path: '/torrent/list',
+      name: 'TorrentList',
+      component: TorrentList
     },
     {
       path: '/about',

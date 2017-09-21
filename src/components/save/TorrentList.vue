@@ -1,17 +1,27 @@
 <template lang="html">
-  <div>
+  <div class="torrent">
     <el-row>
       <template v-for="seed in finishSeed">
         {{ seed.id + ' ' + seed.size }} <br>
       </template>
     </el-row>
     <el-form :inline="true">
-      <el-form-item label="是否排除已报告的种子">
+      <el-form-item label="排除种子">
         <el-switch
           on-text="是"
           off-text="否"
           @change="changeEvent"
           v-model="showExclude"
+          on-color="#13ce66"
+          off-color="#ff4949">
+        </el-switch>
+      </el-form-item>
+      <el-form-item label="排除非官方">
+        <el-switch
+          on-text="是"
+          off-text="否"
+          @change="changeEvent"
+          v-model="excludeNotOfficial"
           on-color="#13ce66"
           off-color="#ff4949">
         </el-switch>
@@ -63,6 +73,7 @@
 </template>
 
 <script>
+import Utils from '../utils/Utils'
 var Clipboard = require('clipboard')
 export default {
   data () {
@@ -75,7 +86,8 @@ export default {
       showExclude: false,
       exclude: null,
       finishSeed: [],
-      copyValue: ''
+      copyValue: '',
+      excludeNotOfficial: true
     }
   },
   mounted () {
@@ -113,29 +125,17 @@ export default {
     },
     filterData () {
       var arr = this.data
+      // 排除种子ID
+      arr = Utils.excludeTorrentId(arr, this.exclude, this.showExclude)
 
-      if (this.showExclude) {
-        let oldSeed = this.exclude.split('\n')
-        arr = arr.filter(item => {
-          for (let i = 0; i < oldSeed.length; i++) {
-            if (item.id === oldSeed[i]) {
-              return false
-            }
-          }
-          return true
-        })
-      }
+      // 排除非官方种子
+      arr = Utils.excludeNotOfficial(arr, this.excludeNotOfficial)
+
       var begin = (this.currentPage - 1) * this.pageSize
       this.total = arr.length
-      let temp = ''
-      for (let i = 0; i < arr.length; i++) {
-        if (i === arr.length - 1) {
-          temp = temp + `${arr[i].id} ${arr[i].size}`
-        } else {
-          temp = temp + `${arr[i].id} ${arr[i].size}\n`
-        }
-      }
-      this.copyValue = temp
+      // 获取复制的内容
+      this.copyValue = Utils.getCopyValue(arr)
+      // 分页
       return arr.slice(begin, begin + this.pageSize)
     }
   }
@@ -147,6 +147,6 @@ export default {
   margin-top: 5px;
 }
 .torrent {
-  height: 300px;
+  min-height: 500px;
 }
 </style>
