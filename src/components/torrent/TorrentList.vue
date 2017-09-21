@@ -103,7 +103,7 @@
             label="类型" width="200">
             <template scope="scope">
               <el-tag type="primary" v-for="item in scope.row.type"
-                style="margin-left: 5px;">{{ item }}</el-tag>
+                style="margin-left: 5px;" :key="item">{{ item }}</el-tag>
             </template>
           </el-table-column>
           <el-table-column
